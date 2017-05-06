@@ -1,12 +1,12 @@
 
 
-OCB_FLAGS := -I interfaces -I examples
+OCB_FLAGS := -I interfaces -I examples -I tests
 
 OCB := ocamlbuild
 
-test.native : test.ml
-	$(OCB) $(OCB_FLAGS) test.native
 
+all_tests.native : all_tests.ml
+	$(OCB) $(OCB_FLAGS) all_tests.native
 
 .PHONY : clean
 

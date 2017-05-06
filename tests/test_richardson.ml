@@ -28,7 +28,7 @@ let a x =
   done;
   y
 
-let p  = { Q.alpha=AH.emb 1e-4;init=z;maxit=50000;reltol=1e-6;check_gap=100;}
+let p  = { Q.alpha=AH.emb 1e-4;init=z;maxit=50000;reltol=1e-6;check_gap=(50001);}
 
 let soln = R.solve p a b
 
