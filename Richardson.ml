@@ -1,33 +1,55 @@
 open Hilbert
 open Solvers
 
-module Richardson (H : HilbertSpace) 
-: Solver with type v = H.v = struct
-  module D = DSL (H)
+module Params (H : HilbertSpace) = struct
+  type c = H.c
   type v = H.v
+  type r = H.r
   type s = {
-    alpha : H.c;
+    alpha : c;
     init  : v;
     maxit : int;
-    reltol : H.r;
+    reltol : r;
 
     check_gap : int;
   }
+end;;
+
+module Richardson (H : HilbertSpace) 
+: Solver 
+with type v = H.v 
+with type r = H.r
+with type c = H.c
+with type s = Params(H).s
+= struct
+  module D = DSL (H)
+  module Q = Params (H)
+  type v = H.v
+  type r = H.r
+  type c = H.c
+  type s = Q.s
+
+  let inc i = i  := (!i) + 1
 
   let solve p a b = 
     D.(
-      let x = ref p.init in
+      let x = ref p.Q.init in
       let res = ref (b - (a !x)) in
-      let alpha = p.alpha in 
-      let maxit = p.maxit in
+      let alpha = p.Q.alpha in 
+      let maxit = p.Q.maxit in
       let normb = norm b in
-      for i = 1 to maxit do
+      let relres = ref (normb /.. (norm !res)) in
+      let i = ref 1 in
+      while p.Q.reltol < !relres  && !i <> maxit do
+
+        inc i;
         x := !x + alpha * (!res);
         res := b - (a !x);
-        if (i mod p.check_gap == 0)
+        if (!i mod p.Q.check_gap == 0)
         then
           let normr = norm !res in
-          Printf.printf "Iteration: %i, Relative Residual: %s" i (string_of_r (normr /.. normb))
+          relres := normr /.. normb;
+          Printf.printf "Iteration: %i, Relative Residual: %s\n" !i (string_of_r !relres)
         else
           ()
       done;

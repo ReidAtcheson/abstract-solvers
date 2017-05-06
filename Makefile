@@ -1,6 +1,6 @@
 
 
-OCB_FLAGS := -I interfaces
+OCB_FLAGS := -I interfaces -I examples
 
 OCB := ocamlbuild
 
