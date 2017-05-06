@@ -18,6 +18,11 @@ let b = Array.init n (
     sin (ifl *. dx)
 )
 
+let b2 = Array.init n (
+  fun i -> 1.0
+)
+
+
 let a x =
   let y = Array.copy x in
   let dx = 1.0 /. (float_of_int (n + 1)) in
@@ -28,14 +33,14 @@ let a x =
   done;
   y
 
-let p  = { Q.init=z;maxit=5;reltol=1e-6;check_gap=(6);}
+let p  = { Q.init=z;maxit=500;reltol=1e-6;check_gap=(501);}
 
 let soln = R.solve p a b
+let soln2 = R.solve p a b2
 
 let () = 
   let tol=1e-3 in
   for i = 0 to (n-1) do
-   (* let x = abs_float soln.(i) in*)
     let x =  soln.(i) in
     let y = b.(i) in
     let err = (abs_float ((pi *. pi *. x) -. y)) /. y in
@@ -45,3 +50,20 @@ let () =
     else
       ()
    done;
+;;
+
+
+let () = 
+  let tol=1e-3 in
+  let dx = 1.0 /. (float_of_int (n+1)) in
+  for i = 0 to (n-1) do
+    let x = soln2.(i) in
+    let xf = (float_of_int (i+1)) *. dx in
+    let an = 0.5 *. xf *. (1.0 -. xf) in
+    let err = (abs_float (an -. x))  /. (abs_float an) in
+    if err > tol
+    then
+      Printf.printf "Conjugate Gradient iteration failed on float-arrays!\n"
+    else
+      ()
+  done; 
