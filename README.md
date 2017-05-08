@@ -22,3 +22,21 @@ abstract operators, although I have modified my approach somewhat. Those posts c
 
 I aim to have useful Krylov iterative methods which can apply to highly tuned code written in C and also to
 highly abstract code written in Ocaml.
+
+
+
+# Current examples
+
+in examples/ I have three examples
+
+
+1. Hilbert space of OCaml floating point arrays
+2. Hilbert space of of smooth functions with L^2 inner product
+3. Hilbert space of custom C data types (a finite difference grid) interfaced via ctypes library
+
+
+All of these have corresponding tests in tests/ where I solve a linear system expressed in each
+respective hilbert space. Right now I have to ensure the operators are symmetric and positive
+definite because I only have Richardson iteration and Conjugate Gradients, but by incorporating
+the [Owl project](https://github.com/ryanrhymes/owl) I will be able to define GMRES as well.
+

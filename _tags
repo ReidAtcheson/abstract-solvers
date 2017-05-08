@@ -1,1 +1,2 @@
 true : optimize(3)
+<examples/C> : -traverse
