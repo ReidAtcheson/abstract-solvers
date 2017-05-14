@@ -13,8 +13,10 @@ all : all_tests.native all_results.native
 test : all_tests.native
 
 results : all_results.native
+	./all_results.native
+	make -C ./results
 
-all_results.native : all_results.ml
+all_results.native : all_results.ml results/one_cg_result.ml results/abstract_cg_result.ml
 	$(OCB) $(OCB_FLAGS) all_results.native
 
 all_tests.native : all_tests.ml libfd.a
@@ -29,4 +31,5 @@ libfd.a :
 
 clean :
 	ocamlbuild -clean
-	make clean -C examples/C/
+	make clean -C ./examples/C/
+	make clean -C ./results

@@ -7,11 +7,11 @@ module Q = Params (FH)
 module R  = ConjugateGradient (FH)
 
 let modulate f  = 
-  fun x -> -. (x -. 1.1) *. (x +. 1.1) *. (f x)
+  fun x -> -. (x +. 2.0) *. (f x) 
 
 let soln maxit = 
   let a f = modulate f in
-  let init =  fun x -> 1.0 /. ((x -. 1.0) *. (x +. 1.0) ) in
+  let init =  fun x -> 1.0 in
   let b =  (fun x -> 1.0) in
   let p  = {Q.init=init;maxit=maxit;reltol=1e-6;check_gap=(maxit+1);} in
   R.solve p a b
@@ -49,7 +49,7 @@ let sample f =
 (* Output domain for sensible plotting *)
 let () = 
   let dom = domain 100 in
-  let outfile = "./results/abstract_cg_domain.dat" in
+  let outfile = "./results/one_cg_domain.dat" in
   arr2file dom outfile;
 ;;
 
@@ -58,6 +58,6 @@ let () =
   for maxit = 1 to 10 do
     let solni = soln maxit in
     let samplesoln = sample solni in
-    let outfile = Printf.sprintf "./results/abstract_cg_%i.dat" maxit in
+    let outfile = Printf.sprintf "./results/one_cg_%i.dat" maxit in
     arr2file samplesoln outfile;
   done;

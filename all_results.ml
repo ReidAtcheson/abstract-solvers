@@ -1,1 +1,2 @@
 open Abstract_cg_result
+open One_cg_result
