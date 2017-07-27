@@ -48,6 +48,7 @@ the [Owl project](https://github.com/ryanrhymes/owl) I will be able to define GM
 ## Linear Solvers
 * [ x ] - Richardson Solver
 * [ x ] - Conjugate Gradient solver
+* [ x ] - Minimum Residual Richardson (lightly modified GMRES(1))
 * [   ] - Symmetrically preconditioned Conjugate Gradient
 * [   ] - GMRES 
 * [   ] - BiCGstab
