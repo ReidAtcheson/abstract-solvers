@@ -3,7 +3,7 @@
 PWD := $(shell pwd)
 
 TPATH := $(PWD)/examples/C/libfd.a
-OCB_FLAGS := -I results -I interfaces -I examples -I tests -pkg core -pkg ctypes.foreign -lflags "-cclib -force_load $(TPATH)"
+OCB_FLAGS := -I results -I interfaces -I examples -I tests  -pkg core -pkg ctypes.foreign -lflags "-cclib -pthread -cclib --force-link $(TPATH)"
 
 OCB := ocamlbuild
 

@@ -40,3 +40,27 @@ respective hilbert space. Right now I have to ensure the operators are symmetric
 definite because I only have Richardson iteration and Conjugate Gradients, but by incorporating
 the [Owl project](https://github.com/ryanrhymes/owl) I will be able to define GMRES as well.
 
+
+
+# Roadmap
+
+
+## Linear Solvers
+[ x ] - Richardson Solver
+[ x ] - Conjugate Gradient solver
+[   ] - Symmetrically preconditioned Conjugate Gradient
+[   ] - GMRES 
+[   ] - BiCGstab
+[   ] - Flexible conjugate gradient
+[   ] - Flexible GMRES
+
+
+## Nonlinear Solvers
+[   ] - Newton solver for nonlinear systems
+[   ] - Optimizers
+
+
+## Eigenvalue Solvers
+[   ] - Power iteration
+[   ] - Arnoldi iterations
+[   ] - Lanczos iterations
