@@ -10,7 +10,7 @@ module R  = ConjugateGradient (FH)
 (** TODO: needs a good test.. come up with good analytical test *)
 
 let modulate f  = 
-  fun x -> -. (x -. 1.0) *. (x +. 1.0) *. (f x)
+  fun x -> -. (x -. 5.0) *. (x +. 5.0) *. (f x)
 
 
 let a f = modulate f
