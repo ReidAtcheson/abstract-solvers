@@ -1,0 +1,106 @@
+diff --git a/Makefile b/Makefile
+index eca4288..f12af71 100644
+--- a/Makefile
++++ b/Makefile
+@@ -3,7 +3,7 @@
+ PWD := $(shell pwd)
+ 
+ TPATH := $(PWD)/examples/C/libfd.a
+-OCB_FLAGS := -I results -I interfaces -I examples -I tests -pkg core -pkg ctypes.foreign -lflags "-cclib -force_load $(TPATH)"
++OCB_FLAGS := -I results -I interfaces -I examples -I tests  -pkg core -pkg ctypes.foreign -lflags "-cclib -pthread -cclib --force-link $(TPATH)"
+ 
+ OCB := ocamlbuild
+ 
+diff --git a/README.md b/README.md
+index 4251bf6..b5694a2 100644
+--- a/README.md
++++ b/README.md
+@@ -40,3 +40,27 @@ respective hilbert space. Right now I have to ensure the operators are symmetric
+ definite because I only have Richardson iteration and Conjugate Gradients, but by incorporating
+ the [Owl project](https://github.com/ryanrhymes/owl) I will be able to define GMRES as well.
+ 
++
++
++# Roadmap
++
++
++## Linear Solvers
++* [ x ] - Richardson Solver
++* [ x ] - Conjugate Gradient solver
++* [   ] - Symmetrically preconditioned Conjugate Gradient
++* [   ] - GMRES 
++* [   ] - BiCGstab
++* [   ] - Flexible conjugate gradient
++* [   ] - Flexible GMRES
++
++
++## Nonlinear Solvers
++* [   ] - Newton solver for nonlinear systems
++* [   ] - Optimizers
++
++
++## Eigenvalue Solvers
++* [   ] - Power iteration
++* [   ] - Arnoldi iterations
++* [   ] - Lanczos iterations
+diff --git a/examples/C/Makefile b/examples/C/Makefile
+index 4267194..fcd7cac 100644
+--- a/examples/C/Makefile
++++ b/examples/C/Makefile
+@@ -1,6 +1,5 @@
+ 
+ 
+-
+ CC := clang
+ CFLAGS := -O3
+ 
+@@ -8,7 +7,7 @@ libfd.a : fd.o
+ 	ar rcs libfd.a fd.o
+ 
+ fd.o : fd.c fd.h
+-	clang $(CFLAGS) -o fd.o -c fd.c
++	$(CC) $(CFLAGS) -o fd.o -c fd.c
+ 
+ 
+ 
+diff --git a/tests/test_abstractness.ml b/tests/test_abstractness.ml
+index 5da27e0..027430d 100644
+--- a/tests/test_abstractness.ml
++++ b/tests/test_abstractness.ml
+@@ -1,13 +1,14 @@
++open Hilbert
+ open Array
+ open ConjugateGradient
+ open FunctionHilbert
+ 
+ module FH = FunctionHilbert
++module D = DSL (FH)
+ module Q = Params (FH)
+ module R  = ConjugateGradient (FH)
+ 
+ 
+-(** TODO: needs a good test.. come up with good analytical test *)
+ 
+ let modulate f  = 
+   fun x -> -. (x -. 5.0) *. (x +. 5.0) *. (f x)
+@@ -15,9 +16,18 @@ let modulate f  =
+ 
+ let a f = modulate f
+ 
+-let init =  fun x -> 1.0 /. ((x -. 1.0) *. (x +. 1.0) )
++let init =  fun x -> 1.0 /. ((x -. 1.5) *. (x +. 1.5) )
+ let b =  (fun x -> 1.0)
+-let p  = {Q.init=init;maxit=10;reltol=1e-6;check_gap=(1);}
++let p  = {Q.init=init;maxit=10;reltol=1e-6;check_gap=(15);}
+ let soln = R.solve p a b
+ 
+ 
++
++let check = modulate soln
++
++let res = D.(norm (check - b) )
++
++
++let pass = res < 1e-6
++
++let () = if pass then () else print_endline "Conjugate gradient failed on function space example"

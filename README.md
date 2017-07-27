@@ -46,21 +46,21 @@ the [Owl project](https://github.com/ryanrhymes/owl) I will be able to define GM
 
 
 ## Linear Solvers
-[ x ] - Richardson Solver
-[ x ] - Conjugate Gradient solver
-[   ] - Symmetrically preconditioned Conjugate Gradient
-[   ] - GMRES 
-[   ] - BiCGstab
-[   ] - Flexible conjugate gradient
-[   ] - Flexible GMRES
+* [ x ] - Richardson Solver
+* [ x ] - Conjugate Gradient solver
+* [   ] - Symmetrically preconditioned Conjugate Gradient
+* [   ] - GMRES 
+* [   ] - BiCGstab
+* [   ] - Flexible conjugate gradient
+* [   ] - Flexible GMRES
 
 
 ## Nonlinear Solvers
-[   ] - Newton solver for nonlinear systems
-[   ] - Optimizers
+* [   ] - Newton solver for nonlinear systems
+* [   ] - Optimizers
 
 
 ## Eigenvalue Solvers
-[   ] - Power iteration
-[   ] - Arnoldi iterations
-[   ] - Lanczos iterations
+* [   ] - Power iteration
+* [   ] - Arnoldi iterations
+* [   ] - Lanczos iterations
